@@ -1,0 +1,48 @@
+# Environment variables
+.env
+.env.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Data files (too large for git)
+data/historical/
+data/*.parquet
+data/*.csv
+data/*.h5
+
+# Models (binary files)
+models/*.pkl
+models/*.h5
+models/*.joblib
+models/*.bin
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets - CRITICAL
+private_keys.txt
+secrets.json

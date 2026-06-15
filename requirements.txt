@@ -1,0 +1,38 @@
+# Core
+python-dotenv==1.0.0
+pandas==2.1.4
+numpy==1.26.3
+requests==2.31.0
+
+# Web3 / GMX
+web3==6.15.1
+gmx-python-sdk
+
+# ML / Stats
+scikit-learn==1.4.0
+xgboost==2.0.3
+hmmlearn==0.3.0
+tensorflow==2.15.0
+statsmodels==0.14.1
+
+# Technical analysis
+ta==0.11.0
+pandas-ta==0.3.14b
+
+# Dashboard
+streamlit==1.30.0
+plotly==5.18.0
+
+# Alerts
+python-telegram-bot==20.7
+
+# Database
+SQLAlchemy==2.0.25
+
+# Testing
+pytest==7.4.4
+pytest-cov==4.1.0
+
+# Code quality
+black==23.12.1
+flake8==7.0.0
