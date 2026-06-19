@@ -74,6 +74,25 @@ class FeatureEngineer:
 
         print("  Moving averages: 11 added")
 
+    def add_trend_horizon_features(self) -> None:
+        """
+        Long-horizon directional features (2h-24h) to capture TREND DIRECTION,
+        not just 5-min noise. Used by the directional regime HMM.
+        Must run after add_moving_averages (depends on ema_50 / ema_200).
+        """
+        df = self.df
+
+        # Longer-horizon returns (smooth out 5-min noise)
+        df["ret_24"] = df["close"].pct_change(24)    # 2 hours
+        df["ret_72"] = df["close"].pct_change(72)    # 6 hours
+        df["ret_288"] = df["close"].pct_change(288)  # 24 hours (daily trend)
+
+        # EMA slopes (trend direction over the EMA's own timescale)
+        df["ema_50_slope"] = df["ema_50"].pct_change(12)    # 1h slope of 50EMA
+        df["ema_200_slope"] = df["ema_200"].pct_change(72)  # 6h slope of 200EMA
+
+        print("  Trend-horizon features: 5 added")
+
     def add_momentum_indicators(self) -> None:
         """RSI, Stochastic, CCI, Williams %R, MFI."""
         df = self.df
@@ -239,6 +258,7 @@ class FeatureEngineer:
         print("\nAdding features:")
         self.add_price_features()
         self.add_moving_averages()
+        self.add_trend_horizon_features()
         self.add_momentum_indicators()
         self.add_volatility_indicators()
         self.add_volume_features()
