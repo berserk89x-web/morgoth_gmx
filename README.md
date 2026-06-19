@@ -65,6 +65,20 @@ An ensemble ML-driven trading agent that:
 - Train XGBoost classifier
 - Ensemble voting logic
 
+### Phase 3 Alt-Data Track (revised 2026-06-19)
+Enriching the feature set with alternative data to improve the weak
+TA-only edge. Liquidations (no free historical backfill) and whale tracking
+(free APIs paywall-limited / no attribution) were both parked after research
+— see `docs/data_sources_notes.md`. Week 1 pivoted to funding rates: full free
+historical, clean APIs, proven contrarian edge.
+
+- **Week 1: Funding rates** (CHANGED again — full free historical, clean APIs)
+- **Week 2: Exchange flows / mempool data**
+- **Week 3: Optional Blockchair whale-lite** (raw large-tx, no attribution)
+- **Week 4: Retrain XGBoost with new features**
+
+Parked: liquidations (forward-only via OKX, Week 8+); whale exchange-attribution (paid).
+
 ### Phase 4: Execution Layer (Week 3)
 - GMX V2 SDK integration
 - Position management
