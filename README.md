@@ -89,8 +89,8 @@ MIT - free to study and learn from.
 
 ## About
 
-Built by [Your Name] - Python engineer focused on 
+Built by glail nor - Python engineer focused on 
 quantitative trading systems. Available for remote 
 roles in Python/ML/quant development.
 
-[Your LinkedIn] | [Your Email]
+ berserk89x@gmail.com
