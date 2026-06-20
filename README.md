@@ -1,131 +1,96 @@
 # MORGOTH GMX
 
-Autonomous BTC perpetuals trading bot for GMX V2 on Arbitrum.
+An autonomous BTC perpetuals trading bot research project
+for GMX V2 on Arbitrum. Honest engineering experiment
+on the limits of ML-based directional prediction.
 
-## Vision
-An ensemble ML-driven trading agent that:
-- Reads BTC 5-min markets continuously
-- Combines 5-10 independent prediction models
-- Trades only on high-consensus signals (80%+ agreement)
-- Uses Kelly criterion for position sizing
-- Risk-managed with ATR-based stops
-- Patient: most days takes no trades
+## TL;DR
 
-## Architecture
+Tested whether machine learning can predict 1-hour BTC 
+direction using technical analysis + alternative data 
+(funding rates, on-chain flows). Result: **negative**.
 
-### Layer 1: Data Pipeline
-- Real-time BTC 5-min feed
-- 40+ technical indicators
-- Volume + order flow analysis
-- Multi-timeframe (M5, M15, H1, H4)
+Direction at this horizon is not predictable with these 
+feature classes. Volatility regimes ARE predictable.
+This finding is fully documented across 19 commits.
 
-### Layer 2: Prediction Models
-- HMM: Regime detection (Bull/Bear/Ranging)
-- GRU: 5-min direction prediction
-- LSTM: 15-min trend confirmation
-- XGBoost: Signal classification
-- Divergence detector
-- Order flow analyzer
+**This repository demonstrates:**
+- Production-grade Python ML pipeline
+- Causal feature engineering (no look-ahead bias)
+- Honest hypothesis testing
+- Walk-forward validation
+- Multiple model comparison
+- Disciplined git workflow
 
-### Layer 3: Decision Engine
-- Voting system across all models
-- Consensus threshold: 80%+
-- Confidence scoring
-- Below threshold = no action
+## What Was Built
 
-### Layer 4: Risk & Execution
-- Kelly criterion sizing (quarter Kelly)
-- ATR-based stops
-- Max 2% account risk per trade
-- 3-10x leverage range
-- GMX V2 SDK integration
+### Phase 1 — Foundation
+- Arbitrum RPC verified (works from Algeria)
+- Chainlink BTC price feed integrated
+- GMX V2 SDK loaded
+- Wallet management
 
-### Layer 5: Monitoring
-- Live dashboard (Streamlit)
-- Telegram alerts
-- Trade journal (SQLite)
-- Performance metrics
+### Phase 2 — Data Pipeline
+- 315,361 BTC 5-minute candles (3 years, Binance)
+- 87 engineered technical features
+- Saved as compressed Parquet
 
-## Roadmap
+### Phase 3 — Model Development
+- Volatility HMM (Calm/Normal/Turbulent) ← REAL EDGE
+- Directional HMM (24h features) ← weak signal
+- XGBoost classifier (TA only) ← no edge
 
-### Phase 1: Foundation (Week 1) ✓ STARTED
-- Project structure
-- Git/GitHub setup
-- GMX connection from Algeria
-- Data fetcher
+### Week 1 — Funding Rate Pipeline
+- Binance + Bybit 3-year funding history
+- Cross-exchange spread features
+- Causal forward-fill (no look-ahead)
+- 11 new features added
 
-### Phase 2: Data Pipeline (Week 1-2)
-- Historical BTC data (3+ years)
-- Feature engineering (40+ indicators)
-- Real-time data feed
+### Week 2 — Network Flow Pipeline
+- 5 daily metrics from blockchain.com (3 years)
+- 1-day lag enforced (look-ahead protection)
+- 22 new features added (120 total)
 
-### Phase 3: Model Development (Week 2-3)
-- Train HMM regime detector
-- Train GRU/LSTM predictors
-- Train XGBoost classifier
-- Ensemble voting logic
+### Week 4 — XGBoost Retrain
+- v1 baseline (TA only): 38.3% BUY precision
+- v2 with alpha (120 cols): 36.8% BUY precision
+- **Decisive negative result documented**
 
-### Phase 3 Alt-Data Track (revised 2026-06-19)
-Enriching the feature set with alternative data to improve the weak
-TA-only edge. Liquidations (no free historical backfill) and whale tracking
-(free APIs paywall-limited / no attribution) were both parked after research
-— see `docs/data_sources_notes.md`. Week 1 pivoted to funding rates: full free
-historical, clean APIs, proven contrarian edge.
+## Key Findings
 
-- **Week 1: Funding rates** (CHANGED again — full free historical, clean APIs)
-- **Week 2: Exchange flows / mempool data**
-- **Week 3: Optional Blockchair whale-lite** (raw large-tx, no attribution)
-- **Week 4: Retrain XGBoost with new features**
+1. **Direction is hard.** 1-hour BTC direction is not 
+   predictable from TA + funding + flow features alone.
+   
+2. **Volatility is predictable.** Volatility regimes 
+   cluster persistently (Markov property holds).
 
-Parked: liquidations (forward-only via OKX, Week 8+); whale exchange-attribution (paid).
+3. **Importance ≠ value.** Features can rank high in 
+   tree model importance while not generalizing out-of-sample.
 
-### Phase 4: Execution Layer (Week 3)
-- GMX V2 SDK integration
-- Position management
-- Risk management
-
-### Phase 5: Dashboard & Alerts (Week 3-4)
-- Streamlit dashboard
-- Telegram notifications
-- Logging system
-
-### Phase 6: Live Testing (Week 4+)
-- DRY_RUN mode first
-- Micro positions ($0.50)
-- Performance analysis
-- Iterative improvement
-
-## Status
-
-Project initialized: June 9, 2026
-Capital: $13.68 USDC.e (to be bridged to Arbitrum)
-Stage: Foundation building
+4. **Honest negative results matter.** 4 weeks saved 
+   from deploying a non-edge model with real capital.
 
 ## Tech Stack
 
-- Python 3.11+
-- gmx_python_sdk
+- Python 3.11
 - pandas, numpy, scikit-learn
-- TensorFlow/Keras (GRU/LSTM)
-- XGBoost
-- hmmlearn
-- Streamlit (dashboard)
-- python-telegram-bot
-- SQLite (local DB)
+- XGBoost, hmmlearn
+- Web3, GMX Python SDK
+- Causal merge_asof patterns
 
-## Safety
+## Next Steps
 
-- Private keys in .env (gitignored)
-- Maximum daily loss: 5% of balance
-- Auto-pause on 15% drawdown
-- All actions logged
-- Telegram alerts on every trade
+Pivoting from directional prediction to 
+volatility-regime-based risk management.
 
 ## License
 
-Private during development.
-Will be open-sourced after 3-6 months proven results.
+MIT - free to study and learn from.
 
----
+## About
 
-Built with patience. Built with discipline. Built for the long game.
+Built by [Your Name] - Python engineer focused on 
+quantitative trading systems. Available for remote 
+roles in Python/ML/quant development.
+
+[Your LinkedIn] | [Your Email]
